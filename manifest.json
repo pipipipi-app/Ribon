@@ -1,0 +1,9 @@
+{
+  "name": "Ribbon Links - My Little Space",
+  "short_name": "Ribbon Links",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fffafd",
+  "theme_color": "#fffafd",
+  "icons": []
+}

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fffafd">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ribbon Links">
+<title>Ribbon Links 🎀</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--pink:#e99abb;--pink-dark:#c96f99;--pink-pale:#fff1f7;--blue:#dff3fb;--blue-dark:#7fb8cf;--ink:#624958;--muted:#a38a99;--line:#f2dce7;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(155deg,#fff 0%,#fff9fc 55%,#f8fcff 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
+main{width:min(100%,680px);margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) 17px calc(30px + env(safe-area-inset-bottom))}
+header{text-align:center;padding:14px 0 22px}
+.ribbon{font-size:35px;line-height:1.1;filter:drop-shadow(0 3px 4px #e99abb35)}
+h1{margin:9px 0 5px;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:600;letter-spacing:.4px;color:#c76e98}
+.subtitle{font-size:10px;letter-spacing:2.4px;color:#b79aaa}
+.decor{width:70px;height:2px;margin:14px auto 0;background:linear-gradient(90deg,#f5d5e4,#c7eaf6,#f5d5e4);border-radius:9px}
+.toolbar{display:flex;gap:8px;margin:0 0 18px}
+.search{min-width:0;flex:1;border:1px solid var(--line);border-radius:15px;padding:12px 14px;background:#fff;font-size:14px;color:var(--ink);outline:none}
+.search:focus,input:focus,textarea:focus,select:focus{border-color:var(--pink);box-shadow:0 0 0 3px #f9e4ee}
+button{font:inherit;cursor:pointer}
+.primary{border:0;border-radius:15px;background:var(--pink);color:#fff;padding:0 16px;font-weight:700;box-shadow:0 5px 12px #e99abb35}
+.primary:active,.save:active{transform:scale(.98)}
+.section-head{display:flex;align-items:center;gap:8px;margin:23px 3px 11px;font-size:12px;letter-spacing:1.2px;font-weight:700;color:#987489}
+.section-head:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#f1d6e3,transparent)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{position:relative;min-width:0;display:flex;align-items:center;gap:11px;padding:13px 11px;border:1px solid #f3e1e9;border-radius:19px;background:#fff;box-shadow:0 5px 18px #d99db514;min-height:83px;text-decoration:none;color:inherit;transition:transform .12s,border-color .12s}
+.card:active{transform:scale(.985)}
+.card-icon{flex:0 0 43px;width:43px;height:43px;border-radius:14px;background:var(--pink-pale);display:flex;align-items:center;justify-content:center;font-size:22px}
+.card:nth-child(3n) .card-icon{background:#eef9fd}
+.card-text{min-width:0;flex:1}
+.card-title{font-size:13px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+.card-url{font-size:10px;color:#b29aaa;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-actions{position:absolute;right:7px;top:6px;display:flex;gap:2px;opacity:.92}
+.icon-btn{border:0;background:#fff9fc;color:#b28ca1;border-radius:8px;padding:4px 5px;font-size:11px;line-height:1.2}
+.empty{border:1px dashed #eecddd;background:#fffafd;border-radius:19px;padding:25px 17px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
+.empty .big{font-size:28px;margin-bottom:7px}
+.note{margin:22px 3px 0;text-align:center;font-size:10px;line-height:1.8;color:#b49bab}
+.modal-backdrop{position:fixed;inset:0;background:#62495855;display:none;align-items:flex-end;justify-content:center;padding:14px;z-index:5}
+.modal-backdrop.open{display:flex}
+.modal{width:min(100%,520px);max-height:88dvh;overflow:auto;background:#fff;border-radius:25px;padding:22px 19px calc(20px + env(safe-area-inset-bottom));box-shadow:0 15px 60px #68465a35}
+.modal h2{margin:0 0 5px;font-size:20px;color:#c76e98}
+.modal .hint{font-size:12px;color:var(--muted);margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:700;color:#8e6c80;margin:13px 0 6px}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#fffafd;color:var(--ink);padding:12px;font:inherit;font-size:14px;outline:none}
+select{appearance:auto}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-buttons{display:flex;gap:9px;margin-top:20px}
+.modal-buttons button{flex:1;border-radius:13px;padding:13px;font-weight:700}
+.save{background:var(--pink);color:white}
+.cancel{background:#f8f0f4;color:#8e7181}
+.delete{background:#fff0f4;color:#c56c8d}
+@media(max-width:380px){.cards{grid-template-columns:1fr}.card{min-height:75px}.card-actions{opacity:1}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="ribbon" aria-hidden="true">🎀</div>
+    <h1>Ribbon Links</h1>
+    <div class="subtitle">MY LITTLE SPACE</div>
+    <div class="decor"></div>
+  </header>
+  <div class="toolbar">
+    <input id="search" class="search" type="search" placeholder="リンクを検索…" aria-label="リンクを検索">
+    <button class="primary" id="addBtn">＋ 追加</button>
+  </div>
+  <div id="linkSections"></div>
+  <div id="emptyState" class="empty" hidden>
+    <div class="big">🎀</div>
+    まだリンクがないよ<br>「＋ 追加」からお気に入りのページを登録してね ♡
+  </div>
+  <p class="note">♡ 白 × ピンクリボン × ほんの少し水色 ♡<br>リンクをタップするとページが開くよ</p>
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <h2 id="modalTitle">リンクを追加 🎀</h2>
+    <div class="hint">URLを登録して、自分だけのホーム画面を作ろう。</div>
+    <form id="linkForm">
+      <input type="hidden" id="linkId">
+      <label for="linkName">表示名 *</label>
+      <input id="linkName" maxlength="70" placeholder="例：時間割" required>
+      <label for="linkUrl">URL *</label>
+      <input id="linkUrl" type="url" inputmode="url" placeholder="https://docs.google.com/…" required>
+      <div class="form-row">
+        <div>
+          <label for="linkCategory">カテゴリー</label>
+          <input id="linkCategory" maxlength="30" placeholder="例：学校">
+        </div>
+        <div>
+          <label for="linkEmoji">アイコン</label>
+          <select id="linkEmoji">
+            <option>🎀</option><option>📚</option><option>🗓️</option><option>📊</option><option>📝</option><option>🎼</option><option>💗</option><option>🩵</option><option>⭐</option><option>📁</option><option>🌷</option><option>🧸</option><option>🎧</option><option>✏️</option><option>🔗</option>
+          </select>
+        </div>
+      </div>
+      <label for="linkNote">ひとこと（任意）</label>
+      <input id="linkNote" maxlength="100" placeholder="例：毎日見る！">
+      <div class="modal-buttons">
+        <button type="button" class="cancel" id="cancelBtn">キャンセル</button>
+        <button type="submit" class="save">保存する ♡</button>
+      </div>
+      <div class="modal-buttons" id="deleteRow" hidden>
+        <button type="button" class="delete" id="deleteBtn">このリンクを削除</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+const STORAGE_KEY = "ribbon-links-v1";
+const $ = (id) => document.getElementById(id);
+let links = [];
+try { links = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); if (!Array.isArray(links)) links = []; } catch(e) { links = []; }
+
+function saveLinks(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(links)); render(); }
+function normalizeUrl(value){
+  const trimmed = value.trim();
+  const url = new URL(trimmed);
+  if (!["http:","https:"].includes(url.protocol)) throw new Error("http/https only");
+  return url.href;
+}
+function openModal(link){
+  $("linkForm").reset();
+  $("linkId").value = link ? link.id : "";
+  $("linkName").value = link ? link.name : "";
+  $("linkUrl").value = link ? link.url : "";
+  $("linkCategory").value = link ? link.category : "";
+  $("linkEmoji").value = link ? link.emoji : "🎀";
+  $("linkNote").value = link ? (link.note || "") : "";
+  $("modalTitle").textContent = link ? "リンクを編集 ✎" : "リンクを追加 🎀";
+  $("deleteRow").hidden = !link;
+  $("modalBackdrop").classList.add("open");
+  setTimeout(() => $("linkName").focus(), 100);
+}
+function closeModal(){ $("modalBackdrop").classList.remove("open"); }
+$("addBtn").addEventListener("click", () => openModal(null));
+$("cancelBtn").addEventListener("click", closeModal);
+$("modalBackdrop").addEventListener("click", e => { if(e.target === $("modalBackdrop")) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+$("linkForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("linkName").value.trim();
+  let url;
+  try { url = normalizeUrl($("linkUrl").value); }
+  catch(err){ alert("URLを確認してね。https:// から始まるURLを入力してね！"); return; }
+  const id = $("linkId").value;
+  const item = {id: id || (Date.now().toString(36)+Math.random().toString(36).slice(2,7)), name, url,
+    category: $("linkCategory").value.trim() || "その他", emoji: $("linkEmoji").value,
+    note: $("linkNote").value.trim(), created: Date.now()};
+  if(id){ const i=links.findIndex(x => x.id===id); if(i>=0) links[i] = {...links[i], ...item}; }
+  else links.push(item);
+  try { saveLinks(); closeModal(); }
+  catch(err){ alert("保存できなかったみたい。ブラウザの設定を確認してね。"); }
+});
+$("deleteBtn").addEventListener("click", () => {
+  const id = $("linkId").value;
+  const item = links.find(x => x.id === id);
+  if(item && confirm(`「${item.name}」を削除する？`)){ links = links.filter(x => x.id !== id); saveLinks(); closeModal(); }
+});
+$("search").addEventListener("input", render);
+
+function escapeHtml(s){return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render(){
+  const q = $("search").value.trim().toLowerCase();
+  const filtered = links.filter(x => [x.name,x.url,x.category,x.note].some(v => String(v||"").toLowerCase().includes(q)));
+  const groups = new Map();
+  filtered.forEach(x => {const cat=x.category || "その他"; if(!groups.has(cat)) groups.set(cat,[]); groups.get(cat).push(x);});
+  $("linkSections").innerHTML = "";
+  $("emptyState").hidden = filtered.length > 0;
+  for(const [category, items] of groups){
+    const section = document.createElement("section");
+    const heading = document.createElement("div");
+    heading.className = "section-head";
+    heading.textContent = category;
+    section.appendChild(heading);
+    const cards = document.createElement("div");
+    cards.className = "cards";
+    items.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      const icon = document.createElement("div"); icon.className = "card-icon"; icon.textContent = item.emoji || "🎀";
+      const text = document.createElement("div"); text.className = "card-text";
+      const title = document.createElement("div"); title.className = "card-title"; title.textContent = item.name;
+      const url = document.createElement("div"); url.className = "card-url"; url.textContent = item.note || (()=>{try{return new URL(item.url).hostname}catch(e){return item.url}})();
+      text.append(title,url);
+      const open = document.createElement("a"); open.href=item.url; open.target="_blank"; open.rel="noopener noreferrer"; open.setAttribute("aria-label", item.name+"を開く");
+      open.style.cssText="display:flex;align-items:center;gap:11px;min-width:0;flex:1;text-decoration:none;color:inherit";
+      open.append(icon,text);
+      const actions=document.createElement("div"); actions.className="card-actions";
+      const edit=document.createElement("button"); edit.className="icon-btn"; edit.type="button"; edit.textContent="✎"; edit.title="編集"; edit.setAttribute("aria-label",item.name+"を編集"); edit.addEventListener("click",e=>{e.stopPropagation();openModal(item)});
+      actions.append(edit); card.append(open,actions); cards.append(card);
+    });
+    section.appendChild(cards); $("linkSections").appendChild(section);
+  }
+  if(q && filtered.length===0){$("emptyState").hidden=false;$("emptyState").innerHTML='<div class="big">🔎</div>見つからなかったよ<br>別の言葉で検索してみてね ♡';}
+}
+render();
+</script>
+</body>
+</html>
